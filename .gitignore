@@ -1,0 +1,40 @@
+# 빌드 결과물
+**/target/
+**/build/
+*.class
+
+# 로그
+*.log
+
+# 환경 설정 (민감 정보)
+application-*.yml
+application-*.properties
+.env
+
+# IDE 설정
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+.idea
+*.iws
+*.iml
+*.ipr
+.vscode/
+out/
+
+# 테스트/임시 파일
+*.swp
+*.tmp
+*.bak
+*.orig
+*.rej
+
+# OS별 시스템 파일
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
