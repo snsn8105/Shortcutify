@@ -32,8 +32,6 @@ public class UserController {
     
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody @Valid LoginRequestDto dto) {
-        System.out.println("✅ [LOGIN 요청 수신됨] username = " + dto.getUsername());
-
         String token = userService.login(dto);
         return ResponseEntity.ok(token);
     }
