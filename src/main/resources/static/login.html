@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>로그인</title>
+</head>
+<body>
+  <h2>로그인</h2>
+  <form id="loginForm">
+    ID: <input type="text" id="username" required><br>
+    PW: <input type="password" id="password" required><br>
+    <button type="submit">로그인</button>
+  </form>
+  <a href="/register.html">회원가입으로 이동</a>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+    
+      const response = await fetch("/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username: document.getElementById("username").value,
+          password: document.getElementById("password").value
+        })
+      });
+    
+      if (response.ok) {
+        const token = await response.text();
+        localStorage.setItem("token", token);
+        window.location.href = "/main.html";
+      } else {
+        alert("로그인 실패");
+      }
+    });
+    </script>
+    
+</body>
+</html>
