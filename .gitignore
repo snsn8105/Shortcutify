@@ -41,3 +41,4 @@ desktop.ini
 
 # Spring Boot 설정 파일 무시
 application.properties
+docker-compose.yml
