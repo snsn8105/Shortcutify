@@ -1,8 +1,13 @@
 package com.OSBasic.Shortcutify.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 import com.OSBasic.Shortcutify.dto.ShortcutRequestDto;
+import com.OSBasic.Shortcutify.dto.ShortcutResponseDto;
 import com.OSBasic.Shortcutify.repository.ShortcutRepository;
 import com.OSBasic.Shortcutify.repository.UserRepository;
 import com.OSBasic.Shortcutify.entity.Shortcut;
@@ -24,5 +29,16 @@ public class ShortcutService {
         shortcut.setImage(dto.getImage());
         shortcut.setUser(user);
         shortcutRepository.save(shortcut);
+    }
+
+    public List<ShortcutResponseDto> getShortcuts(Long userId) {
+        List<Shortcut> shortcuts = shortcutRepository.findByUserId(userId);
+        List<ShortcutResponseDto> result = new ArrayList<>();
+
+        for (Shortcut shortcut : shortcuts) {
+            result.add(new ShortcutResponseDto(shortcut));
+        }
+
+        return result;
     }
 }

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>메인 메뉴</title>
+</head>
+<body>
+  <h2>메인 메뉴</h2>
+  <div id="userInfo"></div>
+  <button onclick="logout()">로그아웃</button>
+
+  <h3>📂 바로가기 목록</h3>
+  <ul id="shortcutList"></ul>
+
+  <h3>➕ 바로가기 추가</h3>
+  <form id="shortcutForm">
+    경로: <input type="text" id="path" required><br>
+    이름: <input type="text" id="name" required><br>
+    이미지 파일: <input type="file" id="image" accept="image/*" required><br>
+    <button type="submit">추가하기</button>
+  </form>
+
+  <script>
+    let userId = null;
+
+    async function fetchUserInfo() {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("로그인 필요");
+        location.href = "/login";
+        return;
+      }
+
+      const response = await fetch("/api/users/me", {
+        headers: { "Authorization": "Bearer " + token }
+      });
+
+      if (response.ok) {
+        const user = await response.json();
+        document.getElementById("userInfo").innerText = `환영합니다, ${user.username}님!`;
+        userId = user.id;
+        loadShortcuts(); // 유저 정보 가져온 후 바로가기도 불러오기
+      } else {
+        alert("인증 실패. 다시 로그인해주세요.");
+        localStorage.removeItem("token");
+        location.href = "/login";
+      }
+    }
+
+    async function loadShortcuts() {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/shortcuts/${userId}`, {
+        headers: { "Authorization": "Bearer " + token }
+      });
+
+      if (response.ok) {
+        const shortcuts = await response.json();
+        const list = document.getElementById("shortcutList");
+        list.innerHTML = "";
+        shortcuts.forEach(s => {
+          const item = document.createElement("li");
+          item.innerHTML = `<img src="${s.image}" alt="" width="24"> <strong>${s.name}</strong> (${s.path})`;
+          list.appendChild(item);
+        });
+      } else {
+        console.error("바로가기 불러오기 실패:", response.status);
+        alert("바로가기를 불러올 수 없습니다. 로그인 상태를 확인해주세요.");
+      }
+    }
+
+    document.getElementById("shortcutForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const token = localStorage.getItem("token");
+
+  const formData = new FormData();
+  formData.append("path", document.getElementById("path").value);
+  formData.append("name", document.getElementById("name").value);
+  formData.append("image", document.getElementById("image").files[0]); // 🔁 파일 객체 전송
+
+  const response = await fetch(`/api/shortcuts/${userId}/create`, {
+    method: "POST",
+    headers: {
+      "Authorization": "Bearer " + token
+    },
+    body: formData // ⚠ JSON 아님
+  });
+
+  if (response.ok) {
+    alert("바로가기 생성 완료");
+    loadShortcuts();
+    document.getElementById("shortcutForm").reset();
+  } else {
+    alert("생성 실패");
+  }
+});
+
+
+    function logout() {
+      localStorage.removeItem("token");
+      location.href = "/login";
+    }
+
+    fetchUserInfo();
+  </script>
+</body>
+</html>
