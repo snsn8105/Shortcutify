@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "create-desktop-shortcuts": "^1.11.1",
+    "jimp": "^1.6.0",
+    "sharp": "^0.34.1",
+    "to-ico": "^1.0.1"
+  }
+}

@@ -41,7 +41,8 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/api/users/me",
                     "/api/users/**",
-                    "/api/shortcuts/**"
+                    "/api/shortcuts/**",
+                    "/api/icons/upload"
                 ).authenticated()
     
                 // ④ 그 외 모두 차단

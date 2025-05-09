@@ -1,44 +1,41 @@
-# 빌드 결과물
-**/target/
-**/build/
-*.class
+# ============================
+# Backend (Spring Boot)
+# ============================
+/backend/target/
+/backend/build/
+/backend/node_modules/
+/backend/uploads/
+/backend/icons/
+/backend/.vscode/
+/backend/.env
+/backend/application.properties
+/backend/application-*.yml
+/backend/application-*.properties
+/backend/docker-compose.yml
+/backend/*.log
 
-# 로그
-*.log
+# Maven wrapper (선택)
+**/.mvn/
+**/mvnw
+**/mvnw.cmd
 
-# 환경 설정 (민감 정보)
-application-*.yml
-application-*.properties
-.env
+# IDE
+**/.idea/
+**/.classpath
+**/.project
+**/.settings
+**/*.iml
 
-# IDE 설정
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-.idea
-*.iws
-*.iml
-*.ipr
-.vscode/
-out/
-
-# 테스트/임시 파일
-*.swp
-*.tmp
-*.bak
-*.orig
-*.rej
-
-# OS별 시스템 파일
+# OS/system
 .DS_Store
 Thumbs.db
-ehthumbs.db
 desktop.ini
 
-# Spring Boot 설정 파일 무시
-application.properties
-docker-compose.yml
+# ============================
+# Frontend (React) - 미래 대비
+# ============================
+/frontend/node_modules/
+/frontend/build/
+/frontend/.env
+/frontend/*.log
+/frontend/.vscode/

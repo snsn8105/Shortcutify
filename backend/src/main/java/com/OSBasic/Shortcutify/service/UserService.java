@@ -40,6 +40,8 @@ public class UserService {
     }
 
     public User getCurrentUser(String username) {
-        return userRepository.findByUsername(username).orElseThrow();
+        return userRepository.findByUsername(username)
+            .orElseThrow(() -> new UsernameNotFoundException("해당 사용자가 없습니다."));
     }
+    
 }

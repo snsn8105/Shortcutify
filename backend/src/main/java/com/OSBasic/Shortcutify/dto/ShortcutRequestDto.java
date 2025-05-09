@@ -1,7 +1,5 @@
 package com.OSBasic.Shortcutify.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -14,9 +12,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ShortcutRequestDto {
-    private String path;
     private String name;
-    @Lob
-    @Column(name = "image", columnDefinition = "LONGBLOB")
-    private byte[] image;
+    private String url;        // 웹 주소 또는 실행 파일 경로
+    private String exePath;    // 선택적 실행파일 경로
+    private String iconPath;   // 선택적 아이콘 경로
 }
