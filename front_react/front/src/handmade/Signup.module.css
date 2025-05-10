@@ -1,0 +1,76 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /*background-color: #be2e2e;*/
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+/* input 박스의 너비를 container에 맞춰 100%로,
+     패딩·박스 사이징을 조정 */
+.field input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.field label {
+  font-size: 1.2rem;
+}
+
+.field Button {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+  background-color: blueviolet;
+}
+
+.field a {
+  font-size: 0.8rem;
+  position: absolute;
+  top: -20px;
+  left: 100px;
+  color: #565656;
+}
+
+.roundedBox {
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150%;
+  height: 600px;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  background-color: white;
+  z-index: 0;
+}
+
+.formContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem; /* 기존 간격 유지 */
+}
+
+.field button:hover {
+  filter: brightness(1.1);
+  cursor: pointer;
+}

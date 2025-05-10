@@ -1,0 +1,114 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /*background-color: #be2e2e;*/
+}
+
+.container {
+  position: relative;
+  top: 30%;
+  left: -41%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 2.5rem;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+
+  /* ↓ 원하는 만큼 왼쪽으로 땡겨오세요 */
+  position: relative;
+  top: -80px;
+  left: -450px;
+}
+
+/* input 박스의 너비를 container에 맞춰 100%로,
+       패딩·박스 사이징을 조정 */
+.field input {
+  /* 세로 위치는 원래대로 */
+  left: -10px; /* 원하는 만큼 왼쪽으로 이동 */
+  width: 250%; /* 필요하면 이 값도 조절하세요 */
+  padding: 0.5rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.field label {
+  font-size: 1.2rem;
+}
+
+.field Button {
+  position: relative;
+  top: -125px;
+  left: 60%;
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 100px;
+  box-sizing: border-box;
+  background-color: aquamarine;
+}
+
+.usertext {
+  position: absolute;
+  bottom: 1rem; /* 박스 바닥에서 1rem 위 */
+  top: 70%;
+  left: 50%; /* 박스 가로 50% 지점 */
+  transform: translateX(-50%);
+  white-space: nowrap; /* 무조건 한 줄로 */
+}
+
+.roundedBox1 {
+  position: relative;
+  top: 0%;
+  left: 34%;
+  transform: translateX(-50%);
+  width: 300%;
+  height: 400px;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  background-color: white;
+  z-index: 0;
+}
+
+.roundedBox2 {
+  position: relative;
+  position: relative;
+  top: 0%;
+  left: 27.3%;
+  transform: translateX(-50%);
+  width: 150%;
+  height: 400px;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  background-color: white;
+  z-index: 0;
+}
+
+.formContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  row-gap: 3rem; /* 기존 간격 유지 */
+}
+
+.formContent .field:nth-child(3) {
+  display: flex; /* flexbox 켜기 */
+  flex-direction: row; /* 가로 방향으로 쌓기 */
+  justify-content: center; /* 가운데 정렬 */
+  gap: 1rem; /* 버튼들 사이에 1rem 간격 */
+  position: absolute;
+  top: 300px;
+  left: -0%;
+}
+
+.field button:hover {
+  filter: brightness(1.1);
+  cursor: pointer;
+}

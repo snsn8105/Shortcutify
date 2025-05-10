@@ -1,0 +1,76 @@
+/* Login.module.css */
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  row-gap: 3rem;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.field input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.field label {
+  font-size: 1.2rem;
+}
+
+.field button {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+  background-color: blueviolet;
+}
+
+.field a {
+  font-size: 0.8rem;
+  position: absolute;
+  top: -20px;
+  left: 100px;
+  color: #565656;
+}
+
+.roundedBox {
+  position: absolute;
+  top: -15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150%;
+  height: 400px;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  background-color: white;
+  z-index: 0;
+}
+
+.formContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  row-gap: 3rem;
+}
+
+.field button:hover {
+  filter: brightness(1.1);
+  cursor: pointer;
+}
