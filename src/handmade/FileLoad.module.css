@@ -1,0 +1,44 @@
+/* src/FileLoad.module.css */
+.loader {
+  width: 300px;
+  height: 350px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.loadButton {
+  position: relative;
+  top: -56px;
+  left: -400px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 20px;
+  background-color: rgb(198, 115, 115);
+  cursor: pointer;
+}
+
+.hiddenInput {
+  display: none;
+}
+
+/* 불러온 이미지를 최대 너비/높이 제한하고 중앙 정렬 */
+.previewImage {
+  position: absolute;
+  top: -100px;
+  left: 210%;
+  transform: translateX(-50%);
+  max-height: 45%;
+  z-index: 1;
+}
+
+.loader p {
+  order: 1; /* 텍스트를 버튼 바로 아래에 위치 */
+  margin: 0; /* 기본 마진 제거 */
+  text-align: center; /* 중앙 정렬 */
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.previewImage {
+  order: -1;
+}
