@@ -27,25 +27,27 @@ public class SecurityConfig {
             .cors(cors -> cors.disable())
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                // ① 템플릿 + API 비로그인 허용
+                // 1. 템플릿 + API 비로그인 허용
                 .requestMatchers(
                     "/", "/index", "/login", "/register", "/main",
                     "/favicon.ico", "/error",
-                    "/api/users/signup", "/api/users/login"
+                    "/api/users/signup", "/api/users/login",
+                    "/api/icons/search" 
                 ).permitAll()
                 
-                // ② 정적 리소스 (favicon, .js, .css, images…) 전부 허용
+                // 2. 정적 리소스 (favicon, .js, .css, images…) 전부 허용
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
     
-                // ③ 토큰 있어야 접근
+                // 3. 토큰 있어야 접근
                 .requestMatchers(
                     "/api/users/me",
                     "/api/users/**",
                     "/api/shortcuts/**",
-                    "/api/icons/upload"
+                    "/api/icons/upload",
+                    "api/icons/url-upload"
                 ).authenticated()
     
-                // ④ 그 외 모두 차단
+                // 4. 그 외 모두 차단
                 .anyRequest().denyAll()
             )
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

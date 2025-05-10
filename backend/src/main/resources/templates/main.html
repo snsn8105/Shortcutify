@@ -20,6 +20,10 @@
     아이콘 이미지 업로드: <input type="file" id="iconUpload" accept="image/*"><br> <!-- ★ -->
     아이콘 파일 경로 (.ico) <small>(자동입력)</small>: <input type="text" id="iconPath" readonly><br> <!-- ★ -->
     <button type="submit">추가하기</button>
+    <h4>🔍 아이콘 검색 (Iconfinder API)</h4>
+    검색어: <input type="text" id="iconSearchInput">
+    <button type="button" onclick="searchIcon()">검색</button>
+    <div id="iconSearchResults" style="margin-top: 10px;"></div>
   </form>
 
   <script>
@@ -142,5 +146,62 @@
 
     fetchUserInfo();
   </script>
+
+  <script>
+  async function searchIcon() {
+    const query = document.getElementById("iconSearchInput").value.trim();
+    if (!query) return alert("검색어를 입력하세요.");
+
+    const token = localStorage.getItem("token");
+    const response = await fetch(`/api/icons/search?query=${encodeURIComponent(query)}`, {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    });
+
+    const container = document.getElementById("iconSearchResults");
+    container.innerHTML = "";
+
+    if (!response.ok) {
+      container.innerText = "아이콘 검색 실패";
+      return;
+    }
+
+    const icons = await response.json();
+
+    icons.forEach(icon => {
+      const img = document.createElement("img");
+      img.src = icon.previewUrl;
+      img.alt = icon.tags.join(", ");
+      img.style.width = "64px";
+      img.style.margin = "5px";
+      img.style.cursor = "pointer";
+
+      img.onclick = async () => {
+        if (!confirm("이 아이콘을 선택하시겠습니까?")) return;
+
+        const formData = new FormData();
+        formData.append("imageUrl", icon.previewUrl);
+
+        const uploadRes = await fetch("/api/icons/url-upload", {
+          method: "POST",
+          headers: { "Authorization": "Bearer " + token },
+          body: formData
+        });
+
+        if (uploadRes.ok) {
+          const iconPath = await uploadRes.text();
+          document.getElementById("iconPath").value = iconPath;
+          alert("🖼️ 아이콘 변환 완료!");
+        } else {
+          alert("아이콘 저장 실패");
+        }
+      };
+
+      container.appendChild(img);
+    });
+  }
+  </script>
+
 </body>
 </html>

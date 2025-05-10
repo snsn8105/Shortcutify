@@ -8,6 +8,7 @@ import java.io.*;
 
 @RestController
 @RequestMapping("/api/icons")
+// 사용자 지정 이미지를 업로드해 .ico 파일로 변환환
 public class IconUploadController {
 
     @PostMapping("/upload")
@@ -16,15 +17,15 @@ public class IconUploadController {
             String originalFilename = file.getOriginalFilename();
             String extension = originalFilename.substring(originalFilename.lastIndexOf('.') + 1).toLowerCase();
     
-            // ① 저장 경로
+            // 1. 저장 경로
             File outputDir = new File("C:/Shortcutify/backend/icons/");
             if (!outputDir.exists()) outputDir.mkdirs();
     
-            // ② 파일 이름 구성
+            // 2. 파일 이름 구성
             String baseName = originalFilename.replaceAll("\\..*$", "") + "_" + System.currentTimeMillis();
             File outputFile = new File(outputDir, baseName + ".ico");
     
-            // ③ 확장자 판단
+            // 3. 확장자 판단
             if (extension.equals("ico")) {
                 // 그대로 저장만 함
                 file.transferTo(outputFile);
