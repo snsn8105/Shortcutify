@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Login.module.css";
 
@@ -48,7 +48,7 @@ const Login1 = () => {
           </div>
 
           <div className={styles.field}>
-            <Link to="/Signup">회원가입 하러 가기</Link>
+            <Link to="/Signup">회원가입하러 가기</Link>
           </div>
         </div>
       </div>

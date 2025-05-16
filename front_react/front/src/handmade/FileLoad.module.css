@@ -12,9 +12,12 @@
   left: -400px;
   padding: 0.5rem 1rem;
   font-size: 1rem;
-  border-radius: 20px;
   background-color: rgb(198, 115, 115);
   cursor: pointer;
+
+  /* 버튼 테두리 명시적으로 추가 */
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
 }
 
 .hiddenInput {

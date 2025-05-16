@@ -1,9 +1,11 @@
+/* src/handmade/Signup.module.css */
+
 .wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  /*background-color: #be2e2e;*/
+  background-color: rgb(11, 15, 56);
 }
 
 .container {
@@ -20,8 +22,8 @@
   flex-direction: column;
   position: relative;
 }
-/* input 박스의 너비를 container에 맞춰 100%로,
-     패딩·박스 사이징을 조정 */
+
+/* input 박스의 너비를 container에 맞춰 100%로, 패딩·박스 사이징 조정 */
 .field input {
   width: 100%;
   padding: 0.5rem;
@@ -33,20 +35,25 @@
   font-size: 1.2rem;
 }
 
-.field Button {
+/* 버튼 스타일: 대소문자 구분하므로 button 소문자로 */
+.field button {
   width: 100%;
   padding: 0.5rem;
   font-size: 1rem;
   box-sizing: border-box;
   background-color: blueviolet;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+
+  position: relative;
+  top: 0px;
+  left: 0%;
 }
 
-.field a {
-  font-size: 0.8rem;
-  position: absolute;
-  top: -20px;
-  left: 100px;
-  color: #565656;
+.field button:hover {
+  filter: brightness(1.1);
 }
 
 .roundedBox {
@@ -58,7 +65,9 @@
   height: 600px;
   border: 2px solid #ccc;
   border-radius: 20px;
-  background-color: white;
+  background-color: rgb(236, 235, 235);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
   z-index: 0;
 }
 
@@ -67,10 +76,5 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  row-gap: 2rem; /* 기존 간격 유지 */
-}
-
-.field button:hover {
-  filter: brightness(1.1);
-  cursor: pointer;
+  row-gap: 2rem;
 }
