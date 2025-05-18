@@ -4,8 +4,6 @@
 /backend/target/
 /backend/build/
 /backend/node_modules/
-/backend/uploads/
-/backend/icons/
 /backend/.vscode/
 /backend/.env
 /backend/application.properties
