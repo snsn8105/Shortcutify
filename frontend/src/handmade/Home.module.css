@@ -1,3 +1,38 @@
+html,
+body {
+  overflow: visible; /* 전체는 보여 주고 */
+  margin: 0;
+  height: 100%;
+}
+.viewport {
+  overflow: visible; /* 화면 밖 박스도 보이게 */
+  height: 100%; /* 100vh → 100% 로 바꿔도 됩니다 */
+}
+.rectangleBoxUp,
+.rectangleBoxDown {
+  position: fixed;
+  z-index: 0; /* 음수에서 0으로 올려서 보이게 */
+  width: 600px;
+  height: 1000px;
+  border-radius: 4px;
+  background-color: #582670;
+  transform-origin: center center;
+}
+
+.rectangleBoxDown {
+  position: fixed;
+  bottom: 200; /* 뷰포트 하단에 붙입니다 */
+  left: 68%; /* 가로 중앙으로 */
+  transform: rotate(30deg);
+  /* rotate 각도는 그대로 둡니다 */
+}
+
+.rectangleBoxUp {
+  transform: rotate(145deg);
+  top: -70%; /* 화면 위에서 10% 지점 */
+  left: 60%; /* 화면 가로 중앙 */
+}
+
 button {
   display: block;
   margin: 0 auto;
@@ -10,20 +45,41 @@ button {
   cursor: pointer;
 
   position: relative;
-  top: 400px;
-  left: 0%;
+  top: -100px;
+  left: 35%;
 }
 
 .field a {
   text-decoration: none;
   font-size: 2rem;
-  color: #565656;
+  color: #c4c4c4;
   position: relative;
-  top: -130px;
+  top: -500px;
   left: 80%;
 }
 
 button:hover {
   filter: brightness(1.1);
   cursor: pointer;
+}
+
+.field a:hover {
+  color: rgb(141, 141, 141);
+}
+
+.rectangleBox p {
+  margin: 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.spinnerVideo {
+  display: block;
+  margin: 0 auto;
+  width: 800px;
+  position: relative;
+  top: 0;
+  left: -25%;
+  border: none;
+  outline: none;
 }

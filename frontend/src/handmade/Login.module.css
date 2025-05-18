@@ -34,6 +34,9 @@
 }
 
 .field button {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
   width: 100%;
   padding: 0.5rem;
   font-size: 1rem;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "./Signup.module.css";
 
 const Signup = () => {
@@ -49,7 +49,7 @@ const Signup = () => {
             <label htmlFor="Password_re">Password-retry</label>
             <input
               type="password_re"
-              id="Password_Re"
+              id="Password_re"
               value={Password_re}
               onChange={onChange}
             />
