@@ -59,9 +59,15 @@
   transform: translateX(-50%);
   width: 150%;
   height: 400px;
+  background-color: white;
   border: 2px solid #ccc;
   border-radius: 20px;
-  background-color: white;
+
+  /* 그림자 추가 */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15),
+    /* 바깥쪽 큰 그림자 */ 0 4px 8px rgba(0, 0, 0, 0.1),
+    /* 바깥쪽 작은 그림자 */ inset 0 1px 0 rgba(255, 255, 255, 0.6); /* 안쪽 상단 하이라이트 */
+
   z-index: 0;
 }
 

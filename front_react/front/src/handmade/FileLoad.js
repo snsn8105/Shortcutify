@@ -32,6 +32,14 @@ export default function FileLoad() {
         이미지 불러오기
       </button>
 
+      <div className={styles.icon}>
+        <button>아이콘 불러오기</button>
+      </div>
+
+      <div className={styles.record}>
+        <button>기록 불러오기</button>
+      </div>
+
       <input
         ref={fileInputRef}
         type="file"

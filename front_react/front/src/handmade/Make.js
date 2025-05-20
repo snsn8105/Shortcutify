@@ -43,7 +43,6 @@ const Make = () => {
             <label htmlFor="Url">Url</label>
             <input type="text" id="Url" value={Url} onChange={onChange} />
           </div>
-
           <div className={styles.field}>
             <label htmlFor="Designation">명칭</label>
             <input
@@ -53,13 +52,12 @@ const Make = () => {
               onChange={onChange}
             />
           </div>
-
           <div className={styles.field}>
             <button onClick={handleCancel}>취소</button>
             <button>저장</button>
             <button>확인</button>
           </div>
-
+          <h1>"결과물 미리보기"</h1>
           <div>
             <FileLoad />
           </div>

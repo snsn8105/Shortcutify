@@ -1,3 +1,15 @@
+html,
+body {
+  /* 스크롤 막기 */
+  overflow: hidden;
+  /* 텍스트 선택 막기 */
+  user-select: none;
+  /* 터치로 스크롤 막기 */
+  touch-action: none;
+  margin: 0;
+  height: 100%;
+}
+
 .wrapper {
   display: flex;
   justify-content: center;
@@ -51,13 +63,13 @@
   font-size: 1rem;
   border-radius: 100px;
   box-sizing: border-box;
-  background-color: aquamarine;
+  background-color: rgb(165, 129, 219);
 }
 
 .usertext {
   position: absolute;
   bottom: 1rem; /* 박스 바닥에서 1rem 위 */
-  top: 70%;
+  top: 75%;
   left: 50%; /* 박스 가로 50% 지점 */
   transform: translateX(-50%);
   white-space: nowrap; /* 무조건 한 줄로 */
@@ -73,6 +85,11 @@
   border: 2px solid #ccc;
   border-radius: 20px;
   background-color: white;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  background-color: rgb(236, 235, 235);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
   z-index: 0;
 }
 
@@ -87,6 +104,11 @@
   border: 2px solid #ccc;
   border-radius: 20px;
   background-color: white;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  background-color: rgb(236, 235, 235);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
   z-index: 0;
 }
 
@@ -111,4 +133,15 @@
 .field button:hover {
   filter: brightness(1.1);
   cursor: pointer;
+}
+
+h1 {
+  /* 기존 위치 지정 그대로 유지하고, */
+  position: absolute;
+  top: -130px;
+  left: 170%;
+
+  /* 추가할 부분 ↓ */
+  white-space: nowrap; /* 줄바꿈을 막고 한 줄로 유지 */
+  overflow: visible; /* 부모의 overflow:hidden 영향을 받지 않게 */
 }
