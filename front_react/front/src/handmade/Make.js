@@ -1,30 +1,27 @@
+// src/Make.js
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FileLoad from "./FileLoad";
 import styles from "./Make.module.css";
 
-const Make = () => {
-  const navigate = useNavigate(); // useNavigate 훅으로 라우팅 처리리
-
-  const [inputs, setInputs] = useState({
-    Url: "",
-    Designation: "",
-  });
-
+export default function Make() {
+  const navigate = useNavigate();
+  const [inputs, setInputs] = useState({ Url: "", Designation: "" });
+  const [imageDataUrl, setImageDataUrl] = useState("");
   const { Url, Designation } = inputs;
 
-  const onChange = (e) => {
-    const value = e.target.value;
-    const id = e.target.id;
+  const onChange = (e) =>
+    setInputs({ ...inputs, [e.target.id]: e.target.value });
 
-    setInputs({
-      ...inputs,
-      [id]: value,
-    });
-  };
-
-  const handleCancel = () => {
-    navigate("/");
+  const handleSave = async () => {
+    if (!imageDataUrl || !Designation) return;
+    const blob = await (await fetch(imageDataUrl)).blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${Designation}.png`;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -41,30 +38,22 @@ const Make = () => {
         <div className={styles.formContent}>
           <div className={styles.field}>
             <label htmlFor="Url">Url</label>
-            <input type="text" id="Url" value={Url} onChange={onChange} />
+            <input id="Url" value={Url} onChange={onChange} />
           </div>
           <div className={styles.field}>
             <label htmlFor="Designation">명칭</label>
-            <input
-              type="text"
-              id="Designation"
-              value={Designation}
-              onChange={onChange}
-            />
+            <input id="Designation" value={Designation} onChange={onChange} />
           </div>
           <div className={styles.field}>
-            <button onClick={handleCancel}>취소</button>
-            <button>저장</button>
+            <button onClick={() => navigate("/")}>취소</button>
+            <button onClick={handleSave}>저장</button>
             <button>확인</button>
           </div>
-          <h1>"결과물 미리보기"</h1>
-          <div>
-            <FileLoad />
-          </div>
+
+          <h1>결과물 미리보기</h1>
+          <FileLoad onImageChange={setImageDataUrl} />
         </div>
       </div>
     </div>
   );
-};
-
-export default Make;
+}
