@@ -4,8 +4,6 @@
 /backend/target/
 /backend/build/
 /backend/node_modules/
-/backend/uploads/
-/backend/icons/
 /backend/.vscode/
 /backend/.env
 /backend/application.properties
@@ -32,10 +30,27 @@ Thumbs.db
 desktop.ini
 
 # ============================
-# Frontend (React) - 미래 대비
+# Frontend (React)
 # ============================
+
+# dependencies
 /frontend/node_modules/
-/frontend/build/
-/frontend/.env
-/frontend/*.log
-/frontend/.vscode/
+/frontend/.pnp
+/frontend/.pnp.js
+
+# testing
+/frontend/coverage
+
+# production
+/frontend/build
+
+# misc
+/frontend/.DS_Store
+/frontend/.env.local
+/frontend/.env.development.local
+/frontend/.env.test.local
+/frontend/.env.production.local
+
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
