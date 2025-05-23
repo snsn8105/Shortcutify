@@ -1,4 +1,13 @@
 /* src/handmade/Signup.module.css */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* 스크롤 금지 */
+  background: linear-gradient(135deg, #e0c3fc, #8ec5fc);
+}
 
 .wrapper {
   display: flex;
@@ -6,75 +15,119 @@
   align-items: center;
   height: 100vh;
   background-color: rgb(245, 245, 244);
+  margin: 0;
+  background: linear-gradient(135deg, #e0c3fc, #8ec5fc);
 }
 
 .container {
   position: relative;
+  width: 100%;
+  max-width: 380px;
+  padding: 2.5rem 2rem 3rem;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.title {
+  margin: 0 0 1.5rem;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.formContent {
   display: flex;
   flex-direction: column;
-  row-gap: 2rem;
-  max-width: 300px;
-  margin: 0 auto;
+  gap: 1.75rem;
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  position: relative;
-}
-
-/* input 박스의 너비를 container에 맞춰 100%로, 패딩·박스 사이징 조정 */
-.field input {
-  width: 100%;
-  padding: 0.5rem;
-  font-size: 1rem;
-  box-sizing: border-box;
 }
 
 .field label {
-  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: #444;
 }
 
-/* 버튼 스타일: 대소문자 구분하므로 button 소문자로 */
-.field button {
-  width: 100%;
-  padding: 0.5rem;
+.field input {
+  padding: 0.75rem 1rem;
   font-size: 1rem;
-  box-sizing: border-box;
-  background-color: blueviolet;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  cursor: pointer;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
 
+.field input:focus {
+  outline: none;
+  border-color: #7b5df5;
+  box-shadow: 0 0 0 3px rgba(123, 93, 245, 0.2);
+}
+
+.submitButton {
+  width: 100%;
+  padding: 0.85rem 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #fff;
+  background: linear-gradient(90deg, #7b5df5, #a056f9);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: filter 0.2s, box-shadow 0.2s;
   position: relative;
-  top: 0px;
   left: 0%;
 }
 
-.field button:hover {
-  filter: brightness(1.1);
+.submitButton:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 8px 16px rgba(123, 93, 245, 0.3);
 }
 
-.roundedBox {
-  position: absolute;
-  top: -10%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 150%;
-  height: 600px;
-  border: 2px solid #ccc;
-  border-radius: 20px;
-  background-color: rgb(236, 235, 235);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  z-index: 0;
-}
-
-.formContent {
-  position: relative;
-  z-index: 1;
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
-  flex-direction: column;
-  row-gap: 2rem;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+
+.modal {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  width: 280px;
+}
+
+.modalMessage {
+  margin: 0 0 1.5rem;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.confirmButton {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  background: linear-gradient(90deg, #7b5df5, #a056f9);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: filter 0.2s, box-shadow 0.2s;
+}
+
+.confirmButton:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 8px 16px rgba(123, 93, 245, 0.3);
 }

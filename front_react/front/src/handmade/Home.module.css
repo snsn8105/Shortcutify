@@ -1,85 +1,108 @@
-html,
-body {
-  overflow: visible; /* 전체는 보여 주고 */
-  margin: 0;
-  height: 100%;
+/* src/handmade/Home.module.css */
+
+/* 1) 헤더 */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(135deg, #7b5df5, #a056f9);
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  z-index: 10;
 }
-.viewport {
-  overflow: visible; /* 화면 밖 박스도 보이게 */
-  height: 100%; /* 100vh → 100% 로 바꿔도 됩니다 */
+.logo {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
+.nav {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.navLink,
+.navButton {
+  color: #fff;
+  font-size: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.navLink:hover,
+.navButton:hover {
+  opacity: 0.8;
+}
+.welcome {
+  color: #fff;
+  font-size: 1rem;
+  margin-right: 1rem;
+}
+
+/* 2) 본문 */
+.content {
+  padding-top: 80px; /* 헤더 공간 확보 */
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* 3) 배경 도형 */
 .rectangleBoxUp,
 .rectangleBoxDown {
   position: fixed;
-  z-index: 0; /* 음수에서 0으로 올려서 보이게 */
+  z-index: 0;
   width: 600px;
   height: 1000px;
   border-radius: 4px;
-  background-color: #582670;
-  transform-origin: center center;
+  background: linear-gradient(135deg, #a056f9, #7b5df5);
 }
-
-.rectangleBoxDown {
-  position: fixed;
-  bottom: 200; /* 뷰포트 하단에 붙입니다 */
-  left: 68%; /* 가로 중앙으로 */
-  transform: rotate(30deg);
-  /* rotate 각도는 그대로 둡니다 */
-}
-
 .rectangleBoxUp {
+  top: -70%;
+  left: 60%;
   transform: rotate(145deg);
-  top: -70%; /* 화면 위에서 10% 지점 */
-  left: 60%; /* 화면 가로 중앙 */
+}
+.rectangleBoxDown {
+  bottom: -50%;
+  left: 68%;
+  transform: rotate(30deg);
 }
 
-button {
+/* 4) 중앙 GIF */
+.gif {
   display: block;
-  margin: 0 auto;
-  padding: 3rem 6rem;
-  font-size: 3rem;
-  background-color: rgb(157, 69, 238);
+  width: 800px;
+  margin: 4rem auto 2rem;
+  z-index: 1;
+  position: relative;
+  left: -20%;
+}
+
+/* 5) 버튼 공통 */
+.createButton {
+  display: inline-block;
+  margin: 0.5rem 1rem;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  background-color: #9d45ee;
   border: none;
   border-radius: 200px;
-  color: white;
+  color: #fff;
   cursor: pointer;
-
+  transition: opacity 0.2s, filter 0.2s;
+  z-index: 2;
   position: relative;
-  top: 10px;
   left: 35%;
 }
-
-.field a {
-  text-decoration: none;
-  font-size: 2rem;
-  color: #c4c4c4;
-  position: relative;
-  top: -580px;
-  left: 80%;
+.createButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
-
-button:hover {
+.createButton:not(:disabled):hover {
   filter: brightness(1.1);
-  cursor: pointer;
-}
-
-.field a:hover {
-  color: rgb(141, 141, 141);
-}
-
-.rectangleBox p {
-  margin: 0;
-  font-size: 1rem;
-  color: #333;
-}
-
-.spinnerVideo {
-  display: block;
-  margin: 0 auto;
-  width: 800px;
-  position: relative;
-  top: 0;
-  left: -25%;
-  border: none;
-  outline: none;
 }
