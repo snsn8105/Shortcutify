@@ -1,147 +1,145 @@
-html,
-body {
-  /* 스크롤 막기 */
-  overflow: hidden;
-  /* 텍스트 선택 막기 */
-  user-select: none;
-  /* 터치로 스크롤 막기 */
-  touch-action: none;
-  margin: 0;
-  height: 100%;
-}
+/* src/handmade/Make.module.css */
 
+/* 전체 그라데이션 배경 + 중앙 정렬 */
 .wrapper {
+  min-height: 100vh;
+  padding: 2rem;
   display: flex;
+  gap: 2rem;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
-  /*background-color: #be2e2e;*/
+  align-items: flex-start;
+  background: linear-gradient(135deg, #e0c3fc, #8ec5fc);
 }
 
-.container {
-  position: relative;
-  top: 30%;
-  left: -41%;
+/* 공통 카드 스타일 */
+.card {
+  width: 400px;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
   display: flex;
   flex-direction: column;
-  row-gap: 2.5rem;
-  max-width: 300px;
-  margin: 0 auto;
+  gap: 1rem;
+
+  position: relative;
+  top: 120px;
+  left: 0%;
 }
 
+/* 카드 제목 */
+.cardTitle {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+}
+
+/* 라벨+인풋 묶음 */
 .field {
   display: flex;
   flex-direction: column;
-
-  /* ↓ 원하는 만큼 왼쪽으로 땡겨오세요 */
-  position: relative;
-  top: -80px;
-  left: -450px;
-}
-
-/* input 박스의 너비를 container에 맞춰 100%로,
-       패딩·박스 사이징을 조정 */
-.field input {
-  /* 세로 위치는 원래대로 */
-  left: -10px; /* 원하는 만큼 왼쪽으로 이동 */
-  width: 250%; /* 필요하면 이 값도 조절하세요 */
-  padding: 0.5rem;
-  font-size: 1rem;
-  box-sizing: border-box;
+  gap: 0.25rem;
 }
 
 .field label {
-  font-size: 1.2rem;
+  font-size: 0.95rem;
+  color: #555;
 }
 
-.field Button {
-  position: relative;
-  top: -125px;
-  left: 60%;
-  width: 100%;
-  padding: 0.5rem;
+.field input {
+  padding: 0.75rem 1rem;
   font-size: 1rem;
-  border-radius: 100px;
-  box-sizing: border-box;
-  background-color: rgb(165, 129, 219);
+  border: 1px solid #dde2e6;
+  border-radius: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.usertext {
-  position: absolute;
-  bottom: 1rem; /* 박스 바닥에서 1rem 위 */
-  top: 75%;
-  left: 50%; /* 박스 가로 50% 지점 */
-  transform: translateX(-50%);
-  white-space: nowrap; /* 무조건 한 줄로 */
+.field input:focus {
+  outline: none;
+  border-color: #7b5df5;
+  box-shadow: 0 0 0 3px rgba(123, 93, 245, 0.2);
 }
 
-.roundedBox1 {
-  position: relative;
-  top: 0%;
-  left: 34%;
-  transform: translateX(-50%);
-  width: 300%;
-  height: 400px;
-  border: 2px solid #ccc;
-  border-radius: 20px;
-  background-color: white;
-  border: 2px solid #ccc;
-  border-radius: 20px;
-  background-color: rgb(236, 235, 235);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  z-index: 0;
-}
-
-.roundedBox2 {
-  position: relative;
-  position: relative;
-  top: 0%;
-  left: 27.3%;
-  transform: translateX(-50%);
-  width: 150%;
-  height: 400px;
-  border: 2px solid #ccc;
-  border-radius: 20px;
-  background-color: white;
-  border: 2px solid #ccc;
-  border-radius: 20px;
-  background-color: rgb(236, 235, 235);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  z-index: 0;
-}
-
-.formContent {
-  position: relative;
-  z-index: 1;
+/* 큰 버튼 그룹 */
+.buttonsRow {
   display: flex;
-  flex-direction: column;
-  row-gap: 3rem; /* 기존 간격 유지 */
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
-.formContent .field:nth-child(3) {
-  display: flex; /* flexbox 켜기 */
-  flex-direction: row; /* 가로 방향으로 쌓기 */
-  justify-content: center; /* 가운데 정렬 */
-  gap: 1rem; /* 버튼들 사이에 1rem 간격 */
-  position: absolute;
-  top: 300px;
-  left: -0%;
-}
-
-.field button:hover {
-  filter: brightness(1.1);
+.button {
+  flex: 1 1 auto;
+  padding: 0.65rem 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fff;
+  background: linear-gradient(90deg, #7b5df5, #a056f9);
+  border: none;
+  border-radius: 50px;
   cursor: pointer;
+  transition: background 0.2s;
+  position: relative;
+  left: 0%;
 }
 
-h1 {
-  /* 기존 위치 지정 그대로 유지하고, */
-  position: absolute;
-  top: -130px;
-  left: 170%;
+.button:hover {
+  background: linear-gradient(90deg, #9354f7, #8a4bf2);
+}
 
-  /* 추가할 부분 ↓ */
-  white-space: nowrap; /* 줄바꿈을 막고 한 줄로 유지 */
-  overflow: visible; /* 부모의 overflow:hidden 영향을 받지 않게 */
+/* 작은 액션 버튼 그룹 */
+.actionsRow {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+.smallButton {
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  color: #7b5df5;
+  background: #f7f2ff;
+  border: 1px solid #e1d8ff;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.2s;
+  position: relative;
+  left: 0%;
+}
+
+.smallButton:hover {
+  background: #ece2ff;
+}
+
+/* 숨김 input */
+.hidden {
+  display: none;
+}
+
+/* 결과 미리보기 */
+.preview {
+  width: 100%;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.placeholder {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #aaa;
+  font-size: 0.95rem;
+  text-align: center;
+  height: 180px;
+}
+
+.previewTitle {
+  font-size: 11.5px;
+  position: relative;
+  top: 0%;
+  left: 40%;
 }

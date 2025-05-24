@@ -1,41 +1,73 @@
 // src/handmade/Home.js
-import { useEffect, useRef } from "react";
+import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 import styles from "./Home.module.css";
-import SpinnerVideo from "./home_text.mp4";
+import gif from "./backn.gif";
 
 export default function Home() {
   const navigate = useNavigate();
-  const videoRef = useRef(null);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.playbackRate = 0.25; // 재생 속도를 1/4배로 느리게
-    }
-  }, []);
+  const { user, logout } = useContext(AuthContext);
 
   return (
-    <div>
-      <div className={styles.rectangleBoxUp} />
-      <div className={styles.rectangleBoxDown} />
+    <>
+      {/* 1) 상단 고정 헤더 */}
+      <header className={styles.header}>
+        <div className={styles.logo}>ShotrCutify</div>
+        <nav className={styles.nav}>
+          {user ? (
+            <>
+              <span className={styles.welcome}>어서오세요, {user.name}님!</span>
+              <button
+                className={styles.navButton}
+                onClick={() => {
+                  logout();
+                  navigate("/");
+                }}
+              >
+                로그아웃
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login1" className={styles.navLink}>
+                Login
+              </Link>
+              <Link to="/signup" className={styles.navLink}>
+                Sign Up
+              </Link>
+            </>
+          )}
+        </nav>
+      </header>
 
-      <video
-        ref={videoRef}
-        className={styles.spinnerVideo}
-        src={SpinnerVideo}
-        autoPlay
-        loop
-        muted
-      />
+      {/* 2) 헤더 아래 본문 */}
+      <div className={styles.content}>
+        {/* 배경 도형 */}
+        <div className={styles.rectangleBoxUp} />
+        <div className={styles.rectangleBoxDown} />
 
-      <button className={styles.createButton} onClick={() => navigate("/make")}>
-        만들기
-      </button>
+        {/* 중앙의 GIF 애니메이션 */}
+        <img className={styles.gif} src={gif} alt="background loop" />
 
-      <div className={styles.field}>
-        <Link to="/login1">[Login]</Link>
-        <Link to="/signup"> [Sign up]</Link>
+        {/* 바로 만들기 버튼 */}
+        <button
+          className={styles.createButton}
+          onClick={() => navigate("/make")}
+          disabled={!user}
+        >
+          바로 만들기
+        </button>
+
+        {/* 기록 불러오기 버튼 */}
+        <button
+          className={styles.createButton}
+          onClick={() => navigate("/Record")}
+          disabled={!user}
+        >
+          기록 불러오기
+        </button>
       </div>
-    </div>
+    </>
   );
 }

@@ -1,85 +1,130 @@
-/* Login.module.css */
+/* src/handmade/Login.module.css */
 
+/* 1. 화면 전체 배경: 부드러운 파스텔 그라데이션 */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* 스크롤 금지 */
+  background: linear-gradient(135deg, #e0c3fc, #8ec5fc);
+}
+
+/* 1. 화면 전체 그라데이션 래퍼 */
 .wrapper {
+  /* height:100vh → body 높이가 이미 100% 이므로 flex 컨테이너가 꽉 채워집니다 */
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  width: 100vw; /* 너비도 화면 전체 */
 }
 
-.container {
+/* 2. 카드 컨테이너 */
+.card {
+  width: 360px;
+  height: 360px;
+  padding: 2.5rem 2rem 2rem;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  text-align: center;
   position: relative;
+  top: 100px;
+}
+
+/* 3. 타이틀 */
+.title {
+  margin: 0 0 1.5rem;
+  font-size: 1.75rem;
+  color: #333;
+  font-weight: 500;
+}
+
+/* 4. 폼 필드 래핑 */
+.form {
   display: flex;
   flex-direction: column;
-  row-gap: 3rem;
-  max-width: 300px;
-  margin: 0 auto;
+  gap: 1.25rem;
+  position: relative;
+  left: 0%;
 }
 
+/* 5. 개별 필드 (레이블+인풋) */
 .field {
-  display: flex;
-  flex-direction: column;
+  text-align: left;
   position: relative;
-}
-
-.field input {
-  width: 100%;
-  padding: 0.5rem;
-  font-size: 1rem;
-  box-sizing: border-box;
+  left: 0%;
 }
 
 .field label {
-  font-size: 1.2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: #444;
 }
 
-.field button {
-  position: static !important;
-  top: auto !important;
-  left: auto !important;
+/* 6. 인풋 스타일 */
+.field input {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.75rem 1rem;
   font-size: 1rem;
-  box-sizing: border-box;
-  background-color: blueviolet;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  position: relative;
+  left: -5%;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: #7b5df5;
+  box-shadow: 0 0 0 3px rgba(123, 93, 245, 0.2);
+}
+
+/* 7. 로그인 버튼 */
+.submit {
+  margin-top: 0.5rem;
+  padding: 0.85rem 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #fff;
+  background: linear-gradient(90deg, #7b5df5, #a056f9);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: filter 0.2s, box-shadow 0.2s;
+}
+
+.submit:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 8px 16px rgba(123, 93, 245, 0.3);
+}
+
+/* 8. 비밀번호 찾기 링크 */
+.forgot {
+  display: block;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #555;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.forgot:hover {
+  color: #333;
 }
 
 .field a {
   font-size: 0.8rem;
   position: absolute;
-  top: -20px;
-  left: 100px;
+  top: 30px;
+  left: 35%;
   color: #565656;
 }
 
-.roundedBox {
-  position: absolute;
-  top: -15%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 150%;
-  height: 400px;
-  background-color: white;
-  border: 2px solid #ccc;
-  border-radius: 20px;
-
-  /* 그림자 추가 */
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15),
-    /* 바깥쪽 큰 그림자 */ 0 4px 8px rgba(0, 0, 0, 0.1),
-    /* 바깥쪽 작은 그림자 */ inset 0 1px 0 rgba(255, 255, 255, 0.6); /* 안쪽 상단 하이라이트 */
-
-  z-index: 0;
-}
-
-.formContent {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  row-gap: 3rem;
-}
-
-.field button:hover {
+.field a:hover {
   filter: brightness(1.1);
   cursor: pointer;
 }
