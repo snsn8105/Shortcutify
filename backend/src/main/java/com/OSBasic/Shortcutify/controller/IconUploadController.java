@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/icons")
@@ -58,5 +59,47 @@ public class IconUploadController {
             return ResponseEntity.internalServerError().body("아이콘 처리 실패: " + e.getMessage());
         }
     }
-    
+
+    @PostMapping("/upload-png")
+    public ResponseEntity<String> uploadPngAndConvert(@RequestParam("image") MultipartFile imageFile) {
+        try {
+            // PNG 저장 디렉토리
+            File uploadDir = new File("C:/Shortcutify/backend/uploads/");
+            if (!uploadDir.exists()) uploadDir.mkdirs();
+
+            // 파일 이름 생성
+            String baseName = UUID.randomUUID().toString();
+            File savedPng = new File(uploadDir, baseName + ".png");
+            imageFile.transferTo(savedPng);
+
+            // ICO 저장 디렉토리
+            File icoDir = new File("C:/Shortcutify/backend/icons/");
+            if (!icoDir.exists()) icoDir.mkdirs();
+
+            File outputIco = new File(icoDir, baseName + ".ico");
+
+            // Node.js 실행
+            String node = "C:/Program Files/nodejs/node.exe";
+            String script = "C:/Shortcutify/backend/node/convert-to-ico.js";
+
+            ProcessBuilder pb = new ProcessBuilder(node, script, savedPng.getAbsolutePath(), outputIco.getAbsolutePath());
+            pb.redirectErrorStream(true);
+            Process process = pb.start();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) System.out.println("NODE: " + line);
+
+            int exit = process.waitFor();
+            if (exit != 0) throw new RuntimeException("Node.js ico 변환 실패");
+
+            // 프론트에 반환할 경로 (상대경로)
+            return ResponseEntity.ok("/icons/" + outputIco.getName());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body("변환 실패: " + e.getMessage());
+        }
+    }
+
 }

@@ -1,5 +1,5 @@
-// src/handmade/Signup.js
 import { useState } from "react";
+import axios from "axios";
 import styles from "./Signup.module.css";
 
 const Signup = () => {
@@ -19,15 +19,34 @@ const Signup = () => {
     setInputs((prev) => ({ ...prev, [id]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: 실제 API 호출
-    setShowAlert(true);
+
+    if (Password !== Password_re) {
+      alert("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:8080/api/users/signup", {
+        username: Id,     // ✅ 필드명 매핑
+        password: Password,
+        name: name,
+        email: email,
+      });
+
+      if (response.status === 200) {
+        setShowAlert(true);
+      }
+    } catch (error) {
+      console.error("회원가입 실패", error.response?.data || error.message);
+      alert("회원가입에 실패했습니다. 아이디 중복 또는 입력 오류일 수 있습니다.");
+    }
   };
 
   const handleConfirm = () => {
     setShowAlert(false);
-    // 추가 로직…
+    window.location.href = "/login"; // 확인 누르면 로그인 페이지로 이동
   };
 
   return (

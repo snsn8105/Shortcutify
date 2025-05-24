@@ -19,7 +19,7 @@ export default function Home() {
             <>
               <span className={styles.welcome}>어서오세요, {user.name}님!</span>
               <button
-                className={styles.navButton}
+                className={`${styles.navButton} ${styles.logoutButton}`}
                 onClick={() => {
                   logout();
                   navigate("/");
@@ -30,10 +30,10 @@ export default function Home() {
             </>
           ) : (
             <>
-              <Link to="/login1" className={styles.navLink}>
+              <Link to="/login" className={`${styles.navLink} ${styles.loginButton}`}>
                 Login
               </Link>
-              <Link to="/signup" className={styles.navLink}>
+              <Link to="/signup" className={`${styles.navLink} ${styles.signupButton}`}>
                 Sign Up
               </Link>
             </>

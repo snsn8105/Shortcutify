@@ -1,36 +1,157 @@
-// src/handmade/Make.js
 import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import styles from "./Make.module.css";
 
 export default function Make() {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
-  const [inputs, setInputs] = useState({ Url: "", Designation: "" });
-  const [fileDataUrl, setFileDataUrl] = useState("");
+  const [iconFile, setIconFile] = useState(null); // ✅ 추가: PNG 파일 상태
+  const [fileDataUrl, setFileDataUrl] = useState(""); // ✅ 미리보기용
+  const [inputs, setInputs] = useState({
+    Url: "",
+    Designation: "",
+    ExePath: "",
+    IconPath: "",
+  });
 
-  // inputs 객체에서 Url 과 Designation을 꺼냅니다
-  const { Url, Designation } = inputs;
+  const [searchQuery, setSearchQuery] = useState("");
+  const [iconResults, setIconResults] = useState([]);
+
+  const { Url, Designation, ExePath, IconPath } = inputs;
 
   const handleChange = (e) => {
     const { id, value } = e.target;
     setInputs((prev) => ({ ...prev, [id]: value }));
   };
 
-  const handleFileClick = () => fileInputRef.current.click();
-  const handleFileChange = (e) => {
+  const handleIconFileChange = (e) => {
     const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => setFileDataUrl(reader.result);
-    reader.readAsDataURL(file);
+    if (file) {
+      setIconFile(file); // ✅ 백엔드 전송용
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFileDataUrl(reader.result); // ✅ 미리보기용
+      };
+      reader.readAsDataURL(file);
+    }
   };
+
+ const handleConvertToIco = async () => {
+    if (!iconFile) {
+      alert("PNG 파일을 먼저 선택하세요.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", iconFile);
+
+    try {
+      const token = localStorage.getItem("token"); // ✅ 로그인 시 저장된 JWT
+
+      const res = await axios.post("http://localhost:8080/api/icons/upload-png", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`, // ✅ 여기에 토큰 추가!
+        },
+      });
+
+      const icoPath = res.data;
+      setInputs((prev) => ({ ...prev, IconPath: icoPath }));
+      console.log("IconPath", IconPath);
+
+      alert("변환 성공! 아이콘 적용 완료");
+    } catch (err) {
+      console.error("변환 실패:", err);
+      alert("아이콘 변환에 실패했습니다.");
+    }
+  };
+
+
+  const handleSave = async () => {
+    if (!Url || !Designation) {
+      alert("URL과 명칭을 입력해주세요.");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+
+      // 텍스트 필드에서 입력한 경로 그대로 사용
+      const trimmedIconPath = IconPath?.trim(); // 공백 제거
+      const finalIconPath =
+        trimmedIconPath && trimmedIconPath.length > 0
+          ? trimmedIconPath
+          : "/images/default.png";
+
+      const requestData = {
+        name: Designation,
+        url: Url,
+        exePath: ExePath || "",
+        iconPath: finalIconPath, // 사용자가 입력한 경로 반영
+      };
+
+      await axios.post("http://localhost:8080/api/shortcuts/create", requestData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      alert("저장 완료!");
+      navigate("/");
+    } catch (err) {
+      console.error("저장 실패:", err);
+      alert("바로가기 저장 중 오류가 발생했습니다.");
+    }
+  };
+
+
+  const handleUrlUpload = async (imageUrl) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await axios.post("http://localhost:8080/api/icons/url-upload", null, {
+        params: { imageUrl },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const icoPath = res.data;
+      setInputs((prev) => ({ ...prev, IconPath: icoPath }));
+      alert("아이콘 URL 변환 성공!");
+    } catch (err) {
+      console.error("URL 변환 실패:", err);
+      alert("이미지 URL 변환에 실패했습니다.");
+    }
+  };
+
+  const handleSearchIcons = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await axios.get("http://localhost:8080/api/icons/search", {
+        params: { query: searchQuery },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setIconResults(res.data);
+    } catch (err) {
+      console.error("아이콘 검색 실패:", err);
+      alert("아이콘 검색 중 오류 발생");
+    }
+  };
+
 
   return (
     <div className={styles.wrapper}>
-      {/* 입력 폼 카드 */}
       <div className={styles.card}>
         <h3 className={styles.cardTitle}>입력 폼</h3>
+
         <div className={styles.field}>
           <label htmlFor="Url">URL</label>
           <input
@@ -41,6 +162,18 @@ export default function Make() {
             placeholder="https://..."
           />
         </div>
+
+        <div className={styles.field}>
+          <label htmlFor="ExePath">Exe 경로 (선택)</label>
+          <input
+            type="text"
+            id="ExePath"
+            value={ExePath}
+            onChange={handleChange}
+            placeholder="C:\\Program Files\\..."
+          />
+        </div>
+
         <div className={styles.field}>
           <label htmlFor="Designation">명칭</label>
           <input
@@ -51,41 +184,81 @@ export default function Make() {
             placeholder="아이콘 이름 입력"
           />
         </div>
-        <div className={styles.buttonsRow}>
-          <button onClick={handleFileClick} className={styles.button}>
-            이미지 불러오기
-          </button>
-          <button className={styles.button}>아이콘 불러오기</button>
+
+        {/* <div className={styles.field}>
+          <label htmlFor="IconPath">아이콘 경로 (선택)</label>
+          <input
+            type="text"
+            id="IconPath"
+            value={IconPath}
+            onChange={handleChange}
+            placeholder="/icons/icon.ico"
+          />
+        </div> */}
+
+        <div className={styles.field}>
+          <label>아이콘 파일 선택</label>
+          <input type="file" accept="image/png" onChange={handleIconFileChange} />
         </div>
+
         <div className={styles.actionsRow}>
-          <Link to="/" className={styles.navLink}>
+          <button onClick={handleConvertToIco} className={styles.smallButton}>
+            아이콘으로 변환
+          </button>
+          <Link to="/">
             <button className={styles.smallButton}>취소</button>
           </Link>
-          <button className={styles.smallButton}>저장</button>
-          <button className={styles.smallButton}>확인</button>
+          <button onClick={handleSave} className={styles.smallButton}>
+            저장
+          </button>
         </div>
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          className={styles.hidden}
-          onChange={handleFileChange}
-        />
       </div>
 
-      {/* 결과물 미리보기 카드 */}
-      <div className={styles.card}>
+      <div className={styles.card_preview}>
         <h3 className={styles.cardTitle}>결과물 미리보기</h3>
         {fileDataUrl ? (
-          <img src={fileDataUrl} alt="preview" className={styles.preview} />
+          <img src={fileDataUrl} alt="preview-png" className={styles.preview} />
+        ) : IconPath && IconPath.endsWith(".png") ? (
+          <img src={IconPath} alt="preview-iconfinder-png" className={styles.preview} />
+        ) : IconPath && IconPath.endsWith(".ico") ? (
+          <img src={`http://localhost:8080${IconPath}`} alt="preview-ico" className={styles.preview} />
         ) : (
-          <div className={styles.placeholder}>
-            아직 로드된 이미지가 없습니다
-          </div>
+          <div className={styles.placeholder}>아직 아이콘이 없습니다</div>
         )}
-        {/* 여기서 사용자 입력 명칭을 보여줌 */}
+
         {Designation && <h1 className={styles.previewTitle}>{Designation}</h1>}
       </div>
+
+
+      <div className={styles.field}>
+  <label>아이콘 검색 (IconFinder)</label>
+    <div style={{ display: "flex", gap: "8px" }}>
+      <input
+        type="text"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        placeholder="예: folder, star, user..."
+      />
+      <button onClick={handleSearchIcons} className={styles.smallButton}>
+        검색
+      </button>
+    </div>
+  </div>
+
+  {iconResults.length > 0 && (
+    <div className={styles.iconList}>
+      {iconResults.map((icon, idx) => (
+        <img
+          key={idx}
+          src={icon.previewUrl} // iconFinderService에서 제공하는 preview_url
+          alt="icon"
+          className={styles.iconThumbnail}
+          onClick={() => handleUrlUpload(icon.previewUrl)}
+        />
+      ))}
+    </div>
+  )}
+
     </div>
   );
 }

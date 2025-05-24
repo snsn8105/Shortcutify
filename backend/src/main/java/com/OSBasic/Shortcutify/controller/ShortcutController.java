@@ -2,7 +2,6 @@ package com.OSBasic.Shortcutify.controller;
 
 import com.OSBasic.Shortcutify.dto.ShortcutDto;
 import com.OSBasic.Shortcutify.dto.ShortcutRequestDto;
-import com.OSBasic.Shortcutify.entity.Shortcut;
 import com.OSBasic.Shortcutify.entity.User;
 import com.OSBasic.Shortcutify.service.ShortcutService;
 import com.OSBasic.Shortcutify.service.UserService;

@@ -32,6 +32,11 @@ public class ShortcutService {
                 iconPath = "";
             }
 
+            // ✅ 아이콘 경로가 /icons/... 로 시작하면 절대경로로 변환
+            if (!iconPath.isBlank() && iconPath.startsWith("/icons/")) {
+                iconPath = "C:/Shortcutify/backend" + iconPath.replace("/", "\\");  // Windows 절대경로로 보정
+            }
+
             boolean isWeb = target.startsWith("http");
 
             // Node 실행
@@ -74,7 +79,7 @@ public class ShortcutService {
                     .name(name)
                     .target(target)
                     .isWeb(isWeb)
-                    .iconPath(iconPath)
+                    .iconPath(iconPath)  // 저장은 변환된 경로 그대로
                     .createdAt(LocalDateTime.now())
                     .updatedAt(LocalDateTime.now())
                     .build();

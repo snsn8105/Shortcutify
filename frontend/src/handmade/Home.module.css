@@ -106,3 +106,35 @@
 .createButton:not(:disabled):hover {
   filter: brightness(1.1);
 }
+
+
+/* 로그인 버튼 - 연보라 */
+.loginButton {
+  background-color: #8e44ad; /* 보라색 */
+  color: white;
+  padding: 0.5em 1em;
+  margin-left: 1em;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+/* 회원가입 버튼 - 핑크톤 보라 */
+.signupButton {
+  background-color: #af5cff; /* 라이트 퍼플 */
+  color: white;
+  padding: 0.5em 1em;
+  margin-left: 1em;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+/* 로그아웃 버튼 - 강조 핫핑크 */
+.logoutButton {
+  background-color: #d936b6; /* 핑크+보라 */
+  color: white;
+  padding: 0.5em 1em;
+  margin-left: 1em;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}

@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.http.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -111,7 +110,7 @@ public class IconFinderService {
         }
 
         // 4. 반환할 .ico 경로 (웹 기준 상대 경로)
-        return "C:/Shortcutify/backend//icons/" + baseName + ".ico";
+        return "/icons/" + baseName + ".ico";
     }
 
 }
