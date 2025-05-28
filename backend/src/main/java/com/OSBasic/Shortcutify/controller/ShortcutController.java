@@ -64,4 +64,19 @@ public class ShortcutController {
         List<ShortcutDto> result = shortcutService.getShortcutsForUser(user);
         return ResponseEntity.ok(result);
     }
+
+    @DeleteMapping("/{name}")
+    public ResponseEntity<String> deleteShortcut(@PathVariable String name, Authentication auth) {
+        String username = auth.getName();
+        User user = userService.getCurrentUser(username);
+
+        boolean deleted = shortcutService.deleteByUserAndName(user, name);
+        if (deleted) {
+            return ResponseEntity.ok("삭제 완료");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("삭제 실패");
+        }
+    }
+
+    
 }

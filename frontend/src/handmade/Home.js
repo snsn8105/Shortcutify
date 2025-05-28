@@ -17,7 +17,7 @@ export default function Home() {
         <nav className={styles.nav}>
           {user ? (
             <>
-              <span className={styles.welcome}>어서오세요, {user.name}님!</span>
+              <span className={styles.welcome}>어서오세요, {user.username}님!</span>
               <button
                 className={`${styles.navButton} ${styles.logoutButton}`}
                 onClick={() => {

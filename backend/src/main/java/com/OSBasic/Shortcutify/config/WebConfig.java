@@ -23,5 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
             .addResourceHandler("/icons/**") // URL 패턴
             .addResourceLocations("file:C:/Shortcutify/backend/icons/"); // 실제 경로 (프로젝트 루트 기준)
     }
+
+    
 }
 

@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,7 +33,7 @@ public class ShortcutService {
                 iconPath = "";
             }
 
-            // ✅ 아이콘 경로가 /icons/... 로 시작하면 절대경로로 변환
+            // 아이콘 경로가 /icons/... 로 시작하면 절대경로로 변환
             if (!iconPath.isBlank() && iconPath.startsWith("/icons/")) {
                 iconPath = "C:/Shortcutify/backend" + iconPath.replace("/", "\\");  // Windows 절대경로로 보정
             }
@@ -73,7 +74,11 @@ public class ShortcutService {
             // 바로가기 경로 계산
             String extension = isWeb ? ".url" : ".lnk";
             String shortcutPath = System.getenv("USERPROFILE") + "\\Desktop\\" + name + extension;
-
+            boolean exists = shortcutRepository.existsByUserAndName(user, name);
+            if (exists) {
+                System.out.println("⚠️ 바로가기 '" + name + "' 는 이미 존재합니다. DB 저장을 생략합니다.");
+                return true;  // 파일 생성은 성공했으니 true
+            }
             Shortcut shortcut = Shortcut.builder()
                     .user(user)
                     .name(name)
@@ -104,4 +109,14 @@ public class ShortcutService {
                         .build())
                 .collect(Collectors.toList());
     }
+
+    public boolean deleteByUserAndName(User user, String name) {
+        Optional<Shortcut> shortcut = shortcutRepository.findByUserAndName(user, name);
+        if (shortcut.isPresent()) {
+            shortcutRepository.delete(shortcut.get());
+            return true;
+        }
+        return false;
+    }
+
 }
