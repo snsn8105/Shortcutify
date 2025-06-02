@@ -165,26 +165,25 @@
 
 .iconList {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(48px, 1fr));
-  gap: 8px;
-  margin-top: 12px;
-  padding: 4px;
+  grid-template-columns: repeat(5, 1fr); /* 한 줄에 5개 */
+  gap: 8px;                              /* 아이콘 간격 */
+  padding: 8px 0;
 }
 
 .iconThumbnail {
-  width: 48px;
-  height: 48px;
+  width: 100%;       /* 그리드 칸에 맞춰 늘어남 */
+  aspect-ratio: 1;   /* 정사각형 유지 */
   object-fit: contain;
   cursor: pointer;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  border-radius: 4px;
   transition: transform 0.2s;
 }
 
 .iconThumbnail:hover {
   transform: scale(1.1);
-  border-color: #007bff;
 }
+
+
 
 .iconThumbnailSelected {
   border-color: #007bff; /* 파란색 강조 */

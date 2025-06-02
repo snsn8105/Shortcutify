@@ -63,7 +63,7 @@ export default function Record() {
       for (const r of records.filter((rec) => selectedIds.has(rec.id))) {
         await axios.post(
           "http://localhost:8080/api/shortcuts/create",
-          { name: r.name, url: r.url, exePath: "", iconPath: r.iconPath },
+          { name: r.name, url: r.url, exePath: r.exePath, iconPath: r.iconPath },
           { headers: { Authorization: `Bearer ${token}` } }
         );
       }

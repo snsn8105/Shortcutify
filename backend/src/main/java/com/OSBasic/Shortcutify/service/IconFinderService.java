@@ -35,7 +35,7 @@ public class IconFinderService {
         String url = UriComponentsBuilder
                 .fromUriString("https://api.iconfinder.com/v4/icons/search")
                 .queryParam("query", query)
-                .queryParam("count", 10)
+                .queryParam("count", 20)
                 .build()
                 .toUriString();
 

@@ -6,8 +6,8 @@ import styles from "./Make.module.css";
 export default function Make() {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
-  const [iconFile, setIconFile] = useState(null); // ✅ 추가: PNG 파일 상태
-  const [fileDataUrl, setFileDataUrl] = useState(""); // ✅ 미리보기용
+  const [iconFile, setIconFile] = useState(null); // 추가: PNG 파일 상태
+  const [fileDataUrl, setFileDataUrl] = useState(""); // 미리보기용
   const [inputs, setInputs] = useState({
     Url: "",
     Designation: "",
@@ -28,11 +28,11 @@ export default function Make() {
   const handleIconFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setIconFile(file); // ✅ 백엔드 전송용
+      setIconFile(file); // 백엔드 전송용
 
       const reader = new FileReader();
       reader.onloadend = () => {
-        setFileDataUrl(reader.result); // ✅ 미리보기용
+        setFileDataUrl(reader.result); // 미리보기용
       };
       reader.readAsDataURL(file);
     }
@@ -48,12 +48,12 @@ export default function Make() {
     formData.append("image", iconFile);
 
     try {
-      const token = localStorage.getItem("token"); // ✅ 로그인 시 저장된 JWT
+      const token = localStorage.getItem("token"); // 로그인 시 저장된 JWT
 
       const res = await axios.post("http://localhost:8080/api/icons/upload-png", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`, // ✅ 여기에 토큰 추가!
+          Authorization: `Bearer ${token}`, // 토큰 추가
         },
       });
 
@@ -70,8 +70,8 @@ export default function Make() {
 
 
   const handleSave = async () => {
-    if (!Url || !Designation) {
-      alert("URL과 명칭을 입력해주세요.");
+    if (!Designation || (!Url && !ExePath)) {
+      alert("명칭과 URL 또는 Exe 경로 중 하나를 입력해주세요.");
       return;
     }
 
@@ -88,7 +88,7 @@ export default function Make() {
       const requestData = {
         name: Designation,
         url: Url,
-        exePath: ExePath || "",
+        exePath: ExePath?.trim() || "",
         iconPath: finalIconPath, // 사용자가 입력한 경로 반영
       };
 
@@ -185,16 +185,6 @@ export default function Make() {
           />
         </div>
 
-        {/* <div className={styles.field}>
-          <label htmlFor="IconPath">아이콘 경로 (선택)</label>
-          <input
-            type="text"
-            id="IconPath"
-            value={IconPath}
-            onChange={handleChange}
-            placeholder="/icons/icon.ico"
-          />
-        </div> */}
 
         <div className={styles.field}>
           <label>아이콘 파일 선택</label>
@@ -214,6 +204,40 @@ export default function Make() {
         </div>
       </div>
 
+
+      <div className={styles.card_preview}>
+        <div className={styles.field}>
+          <label>아이콘 검색 (IconFinder)</label>
+            <div style={{ display: "flex", gap: "8px" }}>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="예: folder, star, user..."
+              />
+              <button onClick={handleSearchIcons} className={styles.smallButton}>
+                검색
+              </button>
+            </div>
+        </div>
+        
+        {iconResults.length > 0 && (
+          <div className={styles.iconList}>
+            {iconResults.slice(0, 20).map((icon, idx) => (
+              <img
+                key={idx}
+                src={icon.previewUrl}
+                alt="icon"
+                className={styles.iconThumbnail}
+                onClick={() => handleUrlUpload(icon.previewUrl)}
+              />
+            ))}
+          </div>
+        )}
+
+      </div>
+
+
       <div className={styles.card_preview}>
         <h3 className={styles.cardTitle}>결과물 미리보기</h3>
         {fileDataUrl ? (
@@ -227,37 +251,8 @@ export default function Make() {
         )}
 
         {Designation && <h1 className={styles.previewTitle}>{Designation}</h1>}
+      
       </div>
-
-
-      <div className={styles.field}>
-  <label>아이콘 검색 (IconFinder)</label>
-    <div style={{ display: "flex", gap: "8px" }}>
-      <input
-        type="text"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        placeholder="예: folder, star, user..."
-      />
-      <button onClick={handleSearchIcons} className={styles.smallButton}>
-        검색
-      </button>
-    </div>
-  </div>
-
-  {iconResults.length > 0 && (
-    <div className={styles.iconList}>
-      {iconResults.map((icon, idx) => (
-        <img
-          key={idx}
-          src={icon.previewUrl} // iconFinderService에서 제공하는 preview_url
-          alt="icon"
-          className={styles.iconThumbnail}
-          onClick={() => handleUrlUpload(icon.previewUrl)}
-        />
-      ))}
-    </div>
-  )}
 
     </div>
   );

@@ -24,37 +24,44 @@ public class ShortcutController {
     private final ShortcutService shortcutService;
     private final UserService userService;
 
-   @PostMapping("/create")
+    @PostMapping("/create")
     public ResponseEntity<String> createShortcut(@RequestBody ShortcutRequestDto dto) {
-        // 현재 로그인된 사용자의 username 추출
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();  // email 또는 사용자 이름
+        User currentUser = userService.getCurrentUser(auth.getName());
 
-        User currentUser = userService.getCurrentUser(username);  // ✔️ 파라미터 넘김
+        boolean mainOk = false;
+        boolean exeOk  = false;
 
-        boolean successMain = shortcutService.createAndSaveShortcut(
+        // 1) 웹 바로가기 (URL) 분기
+        if (dto.getUrl() != null && !dto.getUrl().isBlank()) {
+            mainOk = shortcutService.createAndSaveShortcut(
                 currentUser,
                 dto.getName(),
                 dto.getUrl(),
                 dto.getIconPath()
-        );
-
-        boolean successExe = true;
-        if (dto.getExePath() != null && !dto.getExePath().isBlank()) {
-            successExe = shortcutService.createAndSaveShortcut(
-                    currentUser,
-                    dto.getName() + "_exe",
-                    dto.getExePath(),
-                    dto.getIconPath()
             );
         }
 
-        if (successMain && successExe) {
+        // 2) Exe 바로가기 분기 (이름 뒤에 "_exe" 추가)
+        if (dto.getExePath() != null && !dto.getExePath().isBlank()) {
+            exeOk = shortcutService.createAndSaveShortcut(
+                currentUser,
+                dto.getName() ,   // ← 여기!!
+                dto.getExePath(),
+                dto.getIconPath()
+            );
+        }
+
+        // 3) 두 분기 중 하나라도 성공이면 200, 아니면 500
+        if (mainOk || exeOk) {
             return ResponseEntity.ok("바로가기 생성 완료");
         } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("바로가기 생성 실패");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                .body("바로가기 생성 실패: [웹 ok=" + mainOk + ", exe ok=" + exeOk + "]");
         }
     }
+
+
 
     @GetMapping
     public ResponseEntity<List<ShortcutDto>> getUserShortcuts(Authentication auth) {
