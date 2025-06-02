@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Shortcutify</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="card">
+        <h2>Shortcutify</h2>
+
+        <div class="field">
+          <label for="url">URL</label>
+          <input type="text" id="url" />
+        </div>
+
+        <div class="field">
+          <label for="exePath">Exe 경로 (선택)</label>
+          <input type="text" id="exePath" />
+        </div>
+
+        <div class="field">
+          <label for="designation">명칭</label>
+          <input type="text" id="designation" />
+        </div>
+
+        <div class="field">
+          <label for="iconFile">아이콘 파일 선택</label>
+          <input type="file" id="iconFile" accept="image/png" />
+        </div>
+
+        <div class="actionsRow">
+          <button id="convertBtn" class="smallButton">아이콘 변환</button>
+          <button id="saveBtn" class="smallButton">저장</button>
+        </div>
+
+        <div class="preview" id="previewContainer"></div>
+      </div>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>
