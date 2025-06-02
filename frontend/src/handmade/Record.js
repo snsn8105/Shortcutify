@@ -1,40 +1,50 @@
-// src/handmade/Record.js
-import { useMemo, useState } from "react";
-import styles from "./Record.module.css";
+import { useEffect, useMemo, useState } from "react";
+import axios from "axios";
+import styles from "./RecordGrid.module.css";
 
 export default function Record() {
-  // 1) 더미 데이터
-  const [records] = useState([
-    {
-      id: 1,
-      name: "아이콘 A",
-      url: "https://example.com/A",
-      imageUrl: "https://via.placeholder.com/80",
-      createdAt: "2025-05-20 10:15",
-    },
-    {
-      id: 2,
-      name: "아이콘 B",
-      url: "https://example.com/B",
-      imageUrl: "https://via.placeholder.com/80",
-      createdAt: "2025-05-21 14:30",
-    },
-    // …추가…
-  ]);
-
+  const [records, setRecords] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedIds, setSelectedIds] = useState(new Set());
 
-  // 2) 검색어로 필터링
+  useEffect(() => {
+    const fetchRecords = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await axios.get("http://localhost:8080/api/shortcuts", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setRecords(
+          res.data.map((r, idx) => ({
+            id: idx + 1,
+            name: r.name,
+            url: r.target,
+            iconPath: r.iconPath,
+            imageUrl: getImageUrl(r.iconPath),
+          }))
+        );
+      } catch (err) {
+        console.error("불러오기 실패:", err);
+        alert("바로가기 목록 불러오기 중 오류 발생");
+      }
+    };
+    fetchRecords();
+  }, []);
+
+  const getImageUrl = (iconPath) => {
+    if (!iconPath) return null;
+    const fileName = iconPath.split("\\").pop().split("/").pop();
+    return `http://localhost:8080/icons/${fileName}`;
+  };
+
   const filteredRecords = useMemo(
     () =>
-      records.filter(
-        (r) => r.name.includes(searchTerm) || r.createdAt.includes(searchTerm)
+      records.filter((r) =>
+        r.name.toLowerCase().includes(searchTerm.toLowerCase())
       ),
     [records, searchTerm]
   );
 
-  // 3) 행 클릭 토글
   const toggleSelect = (id) => {
     setSelectedIds((prev) => {
       const next = new Set(prev);
@@ -43,43 +53,94 @@ export default function Record() {
     });
   };
 
-  return (
+  const handleBatchCreate = async () => {
+    if (selectedIds.size === 0) {
+      alert("생성할 아이콘을 선택하세요.");
+      return;
+    }
+    const token = localStorage.getItem("token");
+    try {
+      for (const r of records.filter((rec) => selectedIds.has(rec.id))) {
+        await axios.post(
+          "http://localhost:8080/api/shortcuts/create",
+          { name: r.name, url: r.url, exePath: "", iconPath: r.iconPath },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+      }
+      alert("바로가기 생성 완료");
+    } catch (err) {
+      console.error("생성 실패:", err);
+      alert("생성 중 오류 발생");
+    }
+  };
+
+  const handleBatchDelete = async () => {
+    if (selectedIds.size === 0) {
+      alert("삭제할 아이콘을 선택하세요.");
+      return;
+    }
+    if (!window.confirm("정말 삭제하시겠습니까?")) return;
+    const token = localStorage.getItem("token");
+    try {
+      for (const r of records.filter((rec) => selectedIds.has(rec.id))) {
+        await axios.delete(
+          `http://localhost:8080/api/shortcuts/${encodeURIComponent(r.name)}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+      }
+      setRecords((prev) => prev.filter((rec) => !selectedIds.has(rec.id)));
+      setSelectedIds(new Set());
+      alert("삭제 완료");
+    } catch (err) {
+      console.error("삭제 실패:", err);
+      alert("삭제 중 오류 발생");
+    }
+  };
+
+  const handleClearSelection = () => setSelectedIds(new Set());
+
+ return (
     <div className={styles.wrapper}>
-      <div className={styles.card}>
-        <h3 className={styles.cardTitle}>생성 기록</h3>
+      <div className={styles.container}>
+        {/* 툴바 */}
+        <div className={styles.toolbar}>
+          <input
+            type="text"
+            placeholder="이름으로 검색"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className={styles.search}
+          />
+          <button onClick={handleBatchCreate} className={styles.createBtn}>
+            생성 ({selectedIds.size})
+          </button>
+          <button onClick={handleBatchDelete} className={styles.deleteBtn}>
+            삭제
+          </button>
+          <button onClick={handleClearSelection} className={styles.clearBtn}>
+            선택 해제
+          </button>
+        </div>
 
-        {/* 검색 입력 */}
-        <input
-          type="text"
-          placeholder="이름 또는 날짜로 검색"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className={styles.search}
-        />
-
-        {/* 스크롤 영역 */}
-        <div className={styles.scrollArea}>
+        {/* 아이콘 그리드 */}
+        <div className={styles.iconGrid}>
           {filteredRecords.map((r) => (
             <div
               key={r.id}
-              className={`${styles.recordRow} ${
-                selectedIds.has(r.id) ? styles.selectedRow : ""
-              }`}
+              className={`${styles.iconItem} ${selectedIds.has(r.id) ? styles.selected : ""}`}
               onClick={() => toggleSelect(r.id)}
             >
-              <img src={r.imageUrl} alt={r.name} className={styles.thumbnail} />
-              <div className={styles.info}>
-                <div className={styles.name}>{r.name}</div>
-                <span className={styles.url}>{r.url}</span>
-              </div>
-              <div className={styles.date}>{r.createdAt}</div>
+              {r.imageUrl ? (
+                <img src={r.imageUrl} alt={r.name} className={styles.thumbnail} />
+              ) : (
+                <div className={styles.placeholder}>No Icon</div>
+              )}
+              <div className={styles.iconName}>{r.name}</div>
             </div>
           ))}
         </div>
-
-        {/* 선택 개수 표시 */}
-        <button className={styles.submit}> 생성 ({selectedIds.size})</button>
       </div>
     </div>
   );
+
 }
