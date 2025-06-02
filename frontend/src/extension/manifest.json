@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Shortcutify",
+  "version": "1.0",
+  "description": "사용자가 명칭과 URL, 아이콘으로 바탕화면 바로가기를 만드는 도구",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": ["storage", "scripting", "activeTab"],
+  "host_permissions": ["http://localhost:8080/*"]
+}

@@ -1,0 +1,74 @@
+/* popup.css */
+
+/* 전체 배경 + 정렬 */
+html,
+body {
+  width: 400px;
+  height: 600px;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.wrapper {
+  min-height: 100vh;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #e0c3fc, #8ec5fc);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+}
+
+/* 카드 */
+.card {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.field label {
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.field input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.actionsRow {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.smallButton {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+  background: #f7f2ff;
+  border: 1px solid #e1d8ff;
+  color: #7b5df5;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.smallButton:hover {
+  background: #ece2ff;
+}
