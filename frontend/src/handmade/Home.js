@@ -13,7 +13,7 @@ export default function Home() {
     <>
       {/* 1) 상단 고정 헤더 */}
       <header className={styles.header}>
-        <div className={styles.logo}>ShotrCutify</div>
+        <div className={styles.logo}>ShortCutify</div>
         <nav className={styles.nav}>
           {user ? (
             <>

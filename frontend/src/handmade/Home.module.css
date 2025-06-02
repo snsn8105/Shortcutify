@@ -62,7 +62,7 @@
   transform-origin: center;
 }
 .rectangleBoxDown {
-  bottom: -40vh;
+  bottom: -26vh;
   left: 68vw;
   transform: rotate(30deg);
   transform-origin: center;
