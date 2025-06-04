@@ -159,7 +159,7 @@ export default function Make() {
             id="Url"
             value={Url}
             onChange={handleChange}
-            placeholder="https://..."
+            placeholder="www.example.com"
           />
         </div>
 
