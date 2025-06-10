@@ -11,7 +11,7 @@
 /backend/application-*.properties
 /backend/docker-compose.yml
 /backend/*.log
-
+/backend/src/main/resources/application.properties
 # Maven wrapper (선택)
 **/.mvn/
 **/mvnw
