@@ -12,7 +12,7 @@ Shortcutify는 사용자가 웹 URL 또는 로컬 실행 파일(EXE)에 대한 �
 
 
 ## 윈도우 실행 과정 (vscode 사용 기준)
-0. java 21 버전 설치, 도커 데스크톱 설치된 환경
+0. java 21 버전 설치, 도커 데스크톱 설치된 환경, 구글 크롬으로 바로가기 생성하도록 설정됨
 1. C 드라이브의 루트 경로 "C:\" 에 git clone
 2. https://naver.me/FxCIO5P0    -> 에서 secret 파일이 담긴 zip 파일 다운로드
 3. 다운 받은 파일 중 docker-compose.yml은 Shortcutify/backend에, application.properties를 Shortcutify/backend/src/main/resources 폴더에 저장

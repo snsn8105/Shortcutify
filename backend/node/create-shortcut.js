@@ -1,12 +1,15 @@
 const fs = require("fs");
 const path = require("path");
 const createDesktopShortcut = require("create-desktop-shortcuts");
+const os = require("os");
 
 const [,, filePath, name, iconPath] = process.argv;
 
 // 브라우저 실행을 통한 웹사이트 열기 설정
 const isWebUrl = /^https?:\/\//i.test(filePath);
-const desktopPath = "C:\\Users\\snsn8\\OneDrive\\Desktop"; // 바탕화면 경로 수정 필요
+const desktopClassic = path.join(os.homedir(), "Desktop");
+const desktopOneDrive = path.join(os.homedir(), "OneDrive", "Desktop");
+const desktopPath = fs.existsSync(desktopOneDrive) ? desktopOneDrive : desktopClassic;
 const browserPath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"; // 원하는 브라우저 실행파일 경로
 
 if (isWebUrl) {
