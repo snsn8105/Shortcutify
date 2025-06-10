@@ -22,8 +22,19 @@ export default function Make() {
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setInputs((prev) => ({ ...prev, [id]: value }));
+
+    setInputs((prev) => {
+      const updated = { ...prev, [id]: value };
+
+      
+      if (id === "Url" && value) updated.ExePath = "";
+      
+      if (id === "ExePath" && value) updated.Url = "";
+
+      return updated;
+    });
   };
+
 
   const handleIconFileChange = (e) => {
     const file = e.target.files[0];
@@ -150,7 +161,7 @@ export default function Make() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.card}>
-        <h3 className={styles.cardTitle}>입력 폼</h3>
+        <h3 className={styles.cardTitle}>URL 경로 (웹 바로가기)</h3>
 
         <div className={styles.field}>
           <label htmlFor="Url">URL</label>
@@ -160,17 +171,19 @@ export default function Make() {
             value={Url}
             onChange={handleChange}
             placeholder="www.example.com"
+            disabled={!!ExePath}
           />
         </div>
 
         <div className={styles.field}>
-          <label htmlFor="ExePath">Exe 경로 (선택)</label>
+          <label htmlFor="ExePath">Exe 경로 (프로그램 바로가기)</label>
           <input
             type="text"
             id="ExePath"
             value={ExePath}
             onChange={handleChange}
             placeholder="C:\\Program Files\\..."
+            disabled={!!Url}
           />
         </div>
 
